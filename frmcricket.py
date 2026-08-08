@@ -12,7 +12,7 @@ from telegram.ext import (
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 TOKEN = "8049311684:AAHBcOkfaY1MutqZoB24HxjJOpUK0GUW668"
-GCS_WEB_APP_URL = "https://your-username.github.io/your-repo-name/index.html"
+GCS_WEB_APP_URL = "https://tannuxshaan-cmyk.github.io/CRICKET-BOT/"
 
 WELCOME_TEXT = (
     "🔥 **WELCOME TO ULTIMATE CRICKET ARENA** 🔥\n\n"
@@ -119,7 +119,7 @@ async def set_jersey_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
         except ValueError:
             await update.message.reply_text("⚠️ Please enter a valid number, e.g., `/jersey 18`")
     else:
-        await update.message.reply_text("⚠️ Please provide a number, e.g., `/jersey 7`")
+            await update.message.reply_text("⚠️ Please provide a number, e.g., `/jersey 7`")
 
 async def play(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -223,10 +223,6 @@ async def handle_game_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE
         bot_run = random.randint(1, 6)
         result = f"❌ **OUT!** You threw {user_run}, Bot threw {bot_run}." if user_run == bot_run else f"⚡ You scored: **{user_run}** | Bot choice: {bot_run}"
         await query.edit_message_text(result)
-
-    elif data.startswith("irl_"):
-        run = int(data.split("_")[1])
-        await query.edit_message_text(f"🏏 Shot registered: {run} runs. Processing delivery...")
 
 async def score(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
