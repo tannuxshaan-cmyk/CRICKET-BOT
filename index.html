@@ -1,10 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Cricket Mini App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Hand Cricket Arena</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #0e1621;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #5288c1;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .card {
+            background: #17212b;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px auto;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .score-board {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2481cc;
+            margin: 10px 0;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button.run-btn {
+            background-color: #2481cc;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button.run-btn:hover {
+            background-color: #3b93e6;
+        }
+        #result-box {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            min-height: 50px;
+        }
+    </style>
 </head>
-body style="text-align: center; background-color: #0e1621; color: white; font-family: sans-serif; margin-top: 20vh;">
-    <h1>🏏 Cricket Mini App</h1>
-    <p>Welcome to the Hand Cricket Web App!</p>
+<body>
+
+    <h1>🏏 Hand Cricket Arena</h1>
+    <p>Play Solo Match right inside Telegram!</p>
+
+    <div class="card">
+        <div class="score-board">
+            Score: <span id="runs">0</span> / <span id="wickets">0</span>
+        </div>
+        <div id="result-box">Choose your run below to start batting!</div>
+        
+        <div class="btn-grid">
+            <button class="run-btn" onclick="playBall(1)">1</button>
+            <button class="run-btn" onclick="playBall(2)">2</button>
+            <button class="run-btn" onclick="playBall(3)">3</button>
+            <button class="run-btn" onclick="playBall(4)">4</button>
+            <button class="run-btn" onclick="playBall(5)">5</button>
+            <button class="run-btn" onclick="playBall(6)">6</button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let totalRuns = 0;
+        let totalWickets = 0;
+
+        function playBall(userRun) {
+            if (totalWickets >= 1) {
+                document.getElementById("result-box").innerHTML = "⚠️ Match Over! Refresh to play again.";
+                return;
+            }
+
+            let botRun = Math.floor(Math.random() * 6) + 1;
+            let resultText = "";
+
+            if (userRun === botRun) {
+                totalWickets += 1;
+                resultText = `❌ <span style="color: #ff5252;">OUT!</span> You threw ${userRun}, Bot threw ${botRun}.`;
+            } else {
+                totalRuns += userRun;
+                resultText = `⚡ You scored: <b>${userRun}</b> | Bot choice: ${botRun}`;
+            }
+
+            document.getElementById("runs").innerText = totalRuns;
+            document.getElementById("wickets").innerText = totalWickets;
+            document.getElementById("result-box").innerHTML = resultText;
+
+            if (totalWickets >= 1) {
+                document.getElementById("result-box").innerHTML += "<br><b style='color:#ff5252;'>You are OUT! Final Score: " + totalRuns + "</b>";
+            }
+        }
+    </script>
 </body>
 </html>
